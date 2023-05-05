@@ -12,11 +12,13 @@ export const Navbar = () => {
           <MenuOutlined/>
         </IconButton>
 
-        <Link href="/">
+        <Link href="/" underline="none">
           <Typography variant="h6" color='white'>CookieMaster</Typography>
         </Link>
 
-        <Link href="/theme-changer">
+        <div style={{ flex: 1}}></div>
+        
+        <Link href="/theme-changer" underline="none">
           <Typography variant="h6" color='white'>Cambiar Tema</Typography>
         </Link>
       </Toolbar>
