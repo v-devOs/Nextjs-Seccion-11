@@ -1,9 +1,10 @@
+import { Layout } from "</components/layouts>";
 
 
 export default function Home() {
   return (
-    <>
-      <h1>Cookie master</h1>
-    </>
+    <Layout>
+      <h1>CookieMaster Hola</h1>
+    </Layout>
   )
 }
