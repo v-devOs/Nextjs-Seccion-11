@@ -1,13 +1,17 @@
-import { ChangeEvent, FC, useState } from 'react'
+import { ChangeEvent, FC, SetStateAction, useState } from 'react'
 import { GetServerSideProps } from 'next'
 import { Layout } from '</components/layouts>'
 import { Button, Card, CardContent, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from '@mui/material'
 import Cookies from 'js-cookie'
 import axios from 'axios'
 
-const ThemeChangerChange:FC = ( props ) => {
+interface Props{
+  theme: String
+}
+
+const ThemeChangerChange:FC<Props> = ({ theme }) => {
   
-  const [currentTheme, setCurrentTheme] = useState('Light');
+  const [currentTheme, setCurrentTheme] = useState(theme);
 
   const onThemeChange = ( event: ChangeEvent<HTMLInputElement> ) => {
     const selectedTheme = event.target.value;
@@ -19,8 +23,7 @@ const ThemeChangerChange:FC = ( props ) => {
   const onClick = async () => {
     const {data} = await axios.get('/api/hello')
 
-    console.log(data);
-    
+    console.log(data); 
   }
 
   return (
@@ -34,9 +37,9 @@ const ThemeChangerChange:FC = ( props ) => {
               value={currentTheme}
               onChange={onThemeChange}
             >
-              <FormControlLabel value='Light' control={<Radio/>} label='Light'/>
-              <FormControlLabel value='Dark' control={<Radio/>} label='Dark'/>
-              <FormControlLabel value='Custom' control={<Radio/>} label='Custom'/>
+              <FormControlLabel value='light' control={<Radio/>} label='Light'/>
+              <FormControlLabel value='dark' control={<Radio/>} label='Dark'/>
+              <FormControlLabel value='custom' control={<Radio/>} label='Custom'/>
             </RadioGroup>
           </FormControl>
 
@@ -56,11 +59,13 @@ const ThemeChangerChange:FC = ( props ) => {
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   
   const { theme = 'light', name = 'No name'} = req.cookies;
-  
+
+  const validThemes = ['light', 'dark', 'custom'];
+
 
   return {
     props: {
-      theme,
+      theme: validThemes.includes(theme) ? theme : 'dark',
       name
     }
   }
