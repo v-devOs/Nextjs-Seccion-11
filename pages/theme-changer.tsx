@@ -1,13 +1,17 @@
 import { ChangeEvent, useState } from 'react'
 import { Layout } from '</components/layouts>'
 import { Card, CardContent, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from '@mui/material'
+import Cookies from 'js-cookie'
 
 const ThemeChangerChange = () => {
 
   const [currentTheme, setCurrentTheme] = useState('Light');
 
   const onThemeChange = ( event: ChangeEvent<HTMLInputElement> ) => {
-    setCurrentTheme( event.target.value )
+    const selectedTheme = event.target.value;
+    setCurrentTheme( selectedTheme )
+
+    Cookies.set('theme', selectedTheme );
   }
 
   return (
@@ -16,7 +20,7 @@ const ThemeChangerChange = () => {
       <Card>
         <CardContent>
           <FormControl>
-            <FormLabel>Tmea</FormLabel>
+            <FormLabel>Tema</FormLabel>
             <RadioGroup
               value={currentTheme}
               onChange={onThemeChange}
