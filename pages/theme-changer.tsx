@@ -1,8 +1,9 @@
 import { ChangeEvent, FC, useState } from 'react'
 import { GetServerSideProps } from 'next'
 import { Layout } from '</components/layouts>'
-import { Card, CardContent, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from '@mui/material'
+import { Button, Card, CardContent, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from '@mui/material'
 import Cookies from 'js-cookie'
+import axios from 'axios'
 
 const ThemeChangerChange:FC = ( props ) => {
   
@@ -13,6 +14,13 @@ const ThemeChangerChange:FC = ( props ) => {
     setCurrentTheme( selectedTheme )
 
     Cookies.set('theme', selectedTheme );
+  }
+
+  const onClick = async () => {
+    const {data} = await axios.get('/api/hello')
+
+    console.log(data);
+    
   }
 
   return (
@@ -31,6 +39,12 @@ const ThemeChangerChange:FC = ( props ) => {
               <FormControlLabel value='Custom' control={<Radio/>} label='Custom'/>
             </RadioGroup>
           </FormControl>
+
+          <Button
+            onClick={onClick}
+          >
+            Solicitud
+          </Button>
         </CardContent>
       </Card>
 
@@ -43,7 +57,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   
   const { theme = 'light', name = 'No name'} = req.cookies;
   
-  
+
   return {
     props: {
       theme,
