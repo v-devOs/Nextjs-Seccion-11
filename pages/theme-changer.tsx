@@ -1,10 +1,11 @@
-import { ChangeEvent, useState } from 'react'
+import { ChangeEvent, FC, useState } from 'react'
+import { GetServerSideProps } from 'next'
 import { Layout } from '</components/layouts>'
 import { Card, CardContent, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from '@mui/material'
 import Cookies from 'js-cookie'
 
-const ThemeChangerChange = () => {
-
+const ThemeChangerChange:FC = ( props ) => {
+  
   const [currentTheme, setCurrentTheme] = useState('Light');
 
   const onThemeChange = ( event: ChangeEvent<HTMLInputElement> ) => {
@@ -38,4 +39,16 @@ const ThemeChangerChange = () => {
   )
 }
 
-export default ThemeChangerChange
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+  
+  const { theme = 'light', name = 'No name'} = req.cookies;
+  
+  
+  return {
+    props: {
+      theme,
+      name
+    }
+  }
+}
+export default ThemeChangerChange;
